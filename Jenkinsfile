@@ -16,7 +16,9 @@ pipeline {
                     }
                 }
                 stage('Frontend Tests') {
-                    when { expression { params.RUN_FRONTEND_TESTS } }
+                    when { 
+                        expression { params.RUN_FRONTEND_TESTS } 
+                    }
                     steps {
                         sh 'node ./frontend/test.js'
                     }
@@ -27,6 +29,10 @@ pipeline {
         stage('Deploy') {
             when {
                 expression { env.GIT_BRANCH == 'origin/main' }
+                beforeInput true
+            }
+            input {
+                message 'Deploy the application'
             }
             steps {
                 echo 'Deploying...'
